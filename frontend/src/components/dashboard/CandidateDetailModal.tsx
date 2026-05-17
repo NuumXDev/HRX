@@ -94,7 +94,7 @@ export function CandidateDetailModal({
         const timeoutId = setTimeout(() => controller.abort(), 10000);
 
         try {
-          const res = await fetch(`http://localhost:8000/api/v1/candidates/${currentCandidate.id}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${currentCandidate.id}`, {
             signal: controller.signal
           });
           clearTimeout(timeoutId);
@@ -155,7 +155,7 @@ export function CandidateDetailModal({
 
   const handleUpdateStatus = async (newStatus: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/candidates/${currentCandidate.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${currentCandidate.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })

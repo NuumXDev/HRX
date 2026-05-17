@@ -32,7 +32,7 @@ export default function OnboardingWizard() {
             const orgId = session?.user?.org_id;
             if (orgId) {
                 try {
-                    const res = await fetch(`http://localhost:8000/api/v1/organizations/${orgId}`);
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}`);
                     if (res.ok) {
                         const data = await res.json();
                         setFormData(prev => ({ ...prev, name: data.name }));
@@ -82,7 +82,7 @@ export default function OnboardingWizard() {
             if (!orgId) throw new Error("No organization ID found in session.");
 
             // 1. Save Organization Data
-            const orgRes = await fetch(`http://localhost:8000/api/v1/organizations/${orgId}/onboarding`, {
+            const orgRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/onboarding`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

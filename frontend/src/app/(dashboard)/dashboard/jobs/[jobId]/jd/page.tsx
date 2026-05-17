@@ -24,7 +24,7 @@ export default function JobDescriptionPage({ params }: { params: Promise<{ jobId
                 const orgId = session?.user?.org_id;
                 if (!orgId) return;
 
-                const url = `http://localhost:8000/api/v1/jobs/${jobId}?org_id=${orgId}`;
+                const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}?org_id=${orgId}`;
                 console.log(`HITTING URL: ${url}`);
                 console.log(`Session OrgID: ${orgId}`);
 
@@ -57,7 +57,7 @@ export default function JobDescriptionPage({ params }: { params: Promise<{ jobId
         try {
             // @ts-ignore
             const orgId = session?.user?.org_id;
-            const res = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}?org_id=${orgId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}?org_id=${orgId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ jd_final_content: content }),
