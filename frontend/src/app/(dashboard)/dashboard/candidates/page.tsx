@@ -33,7 +33,7 @@ export default function CandidatesDatabasePage() {
 
         const fetchCandidates = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/candidates`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/candidates`);
                 if (res.ok) {
                     setCandidates(await res.json());
                 }
@@ -49,7 +49,7 @@ export default function CandidatesDatabasePage() {
 
     const handleStatusChange = async (candidateId: string, newStatus: string) => {
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/candidates/${candidateId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${candidateId}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus })
@@ -68,7 +68,7 @@ export default function CandidatesDatabasePage() {
     const handleDeleteCandidate = async (candidateId: string) => {
         if (!confirm("Are you sure you want to delete this candidate? This action cannot be undone.")) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/candidates/${candidateId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${candidateId}`, {
                 method: "DELETE"
             });
             if (res.ok) {
@@ -236,7 +236,7 @@ export default function CandidatesDatabasePage() {
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end gap-2">
                                         <button
-                                            onClick={() => window.open(`http://127.0.0.1:8000/api/v1/candidates/${candidate.id}/resume`, '_blank')}
+                                            onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${candidate.id}/resume`, '_blank')}
                                             className="p-2 hover:bg-white/5 rounded-lg text-slate-500 hover:text-white transition-all"
                                             title="View Resume"
                                         >

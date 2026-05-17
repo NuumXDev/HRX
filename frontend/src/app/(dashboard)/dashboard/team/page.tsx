@@ -34,8 +34,8 @@ export default function TeamPage() {
     const fetchTeam = async () => {
         try {
             const [usersRes, invitesRes] = await Promise.all([
-                fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/users`),
-                fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/invites`)
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/users`),
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/invites`)
             ]);
 
             if (usersRes.ok) setTeam(await usersRes.json());
@@ -51,7 +51,7 @@ export default function TeamPage() {
         e.preventDefault();
         setInviting(true);
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/invites`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/invites`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -83,7 +83,7 @@ export default function TeamPage() {
         if (!confirm("Are you sure you want to revoke this invitation?")) return;
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/invites/${inviteId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/invites/${inviteId}`, {
                 method: "DELETE"
             });
             if (res.ok) {
@@ -100,7 +100,7 @@ export default function TeamPage() {
     const handleUpdateRole = async () => {
         if (!selectedMember) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/users/${selectedMember.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/users/${selectedMember.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ role: newRole })
@@ -121,7 +121,7 @@ export default function TeamPage() {
     const handleRemoveMember = async (userId: string, name: string) => {
         if (!confirm(`Are you sure you want to remove ${name} from the team?`)) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/users/${userId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/users/${userId}`, {
                 method: "DELETE"
             });
             if (res.ok) {

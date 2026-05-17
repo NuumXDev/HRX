@@ -24,7 +24,7 @@ export default function RegisterPage() {
 
         try {
             // 1. Create the company and user via FastAPI
-            const res = await fetch("http://127.0.0.1:8000/api/v1/auth/register", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/v1/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

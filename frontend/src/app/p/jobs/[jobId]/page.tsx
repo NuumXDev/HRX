@@ -22,7 +22,7 @@ export default function PublicJobPage({ params }: { params: Promise<{ jobId: str
     useEffect(() => {
         const fetchJob = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/v1/public/jobs/${jobId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/public/jobs/${jobId}`);
                 if (res.ok) {
                     setJob(await res.json());
                 } else {
@@ -54,7 +54,7 @@ export default function PublicJobPage({ params }: { params: Promise<{ jobId: str
         formData.append("resume", resume);
 
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/public/jobs/${jobId}/apply`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/public/jobs/${jobId}/apply`, {
                 method: "POST",
                 body: formData,
             });

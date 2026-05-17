@@ -29,7 +29,7 @@ export default function JobWorkspaceLayout({
             if (!orgId) return;
 
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/v1/jobs/${jobId}?org_id=${orgId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}?org_id=${orgId}`);
                 // Note: For now, we'll keep it simple, if it fails we use a placeholder
                 if (res.ok) {
                     const data = await res.json();

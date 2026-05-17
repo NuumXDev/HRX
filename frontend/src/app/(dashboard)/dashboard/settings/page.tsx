@@ -41,7 +41,7 @@ export default function SettingsPage() {
 
     const fetchOrg = async () => {
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}`);
             if (res.ok) {
                 const data = await res.json();
                 setOrgData(data);
@@ -67,7 +67,7 @@ export default function SettingsPage() {
         e.preventDefault();
         setSaving(true);
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)

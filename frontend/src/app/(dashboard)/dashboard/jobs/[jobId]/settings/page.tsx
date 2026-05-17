@@ -20,7 +20,7 @@ export default function JobSettingsPage({ params }: { params: Promise<{ jobId: s
 
         setIsArchiving(true);
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/jobs/${jobId}?org_id=${orgId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}?org_id=${orgId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: "closed" })
@@ -46,7 +46,7 @@ export default function JobSettingsPage({ params }: { params: Promise<{ jobId: s
 
         setIsDeleting(true);
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/jobs/${jobId}?org_id=${orgId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}?org_id=${orgId}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
             });

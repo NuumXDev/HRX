@@ -273,10 +273,10 @@ export function CandidateDetailModal({
 
             <div className="flex items-center gap-4">
               <div className="flex items-center p-1 bg-white/5 border border-white/10 rounded-xl">
-                <button onClick={() => window.open(`http://127.0.0.1:8000/api/v1/candidates/${currentCandidate.id}/resume`, "_blank")} className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all" title="View CV">
+                <button onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${currentCandidate.id}/resume`, "_blank")} className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all" title="View CV">
                   <FileText size={18} />
                 </button>
-                <button onClick={() => window.open(`http://127.0.0.1:8000/api/v1/candidates/${currentCandidate.id}/report`, "_blank")} className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-brand-accent transition-all" title="Download Report">
+                <button onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${currentCandidate.id}/report`, "_blank")} className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-brand-accent transition-all" title="Download Report">
                   <ExternalLink size={18} />
                 </button>
               </div>
@@ -587,7 +587,7 @@ export function CandidateDetailModal({
 
                       {currentCandidate.assessment_status === "COMPLETED" && (
                         <button 
-                          onClick={() => window.open(`http://127.0.0.1:8000/api/v1/candidates/${currentCandidate.id}/assessment-report`, "_blank")}
+                          onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${currentCandidate.id}/assessment-report`, "_blank")}
                           className="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-500 transition-all flex items-center gap-3 shadow-lg shadow-emerald-900/20"
                         >
                           <FileText size={18} /> DOWNLOAD FULL PDF REPORT

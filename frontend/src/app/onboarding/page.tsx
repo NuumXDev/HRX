@@ -95,7 +95,7 @@ export default function OnboardingWizard() {
 
             // 2. Send Team Invites (if any)
             if (teamInvites.length > 0) {
-                const inviteRes = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/invites`, {
+                const inviteRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/invites`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ invites: teamInvites }),

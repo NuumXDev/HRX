@@ -24,7 +24,7 @@ export default async function DashboardPage() {
     const orgId = session.user.org_id;
 
     // Fetch organization details to ensure onboarding is completed
-    const res = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}`, {
         cache: 'no-store'
     });
 
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
     }
 
     // Fetch organization stats
-    const statsRes = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/stats`, {
+    const statsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/stats`, {
         cache: 'no-store'
     });
 
@@ -57,13 +57,13 @@ export default async function DashboardPage() {
     };
 
     // Fetch active jobs list
-    const jobsRes = await fetch(`http://127.0.0.1:8000/api/v1/jobs/?org_id=${orgId}`, {
+    const jobsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/?org_id=${orgId}`, {
         cache: 'no-store'
     });
     const jobs = jobsRes.ok ? await jobsRes.json() : [];
 
     // Fetch AI Recommendations
-    const recommendationsRes = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${orgId}/recommendations`, {
+    const recommendationsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/organizations/${orgId}/recommendations`, {
         cache: 'no-store'
     });
     const recommendations = recommendationsRes.ok ? await recommendationsRes.json() : [];

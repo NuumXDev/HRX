@@ -48,7 +48,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
     useEffect(() => {
         const fetchCandidates = async () => {
             try {
-                const res = await fetch(`http://127.0.0.1:8000/api/v1/jobs/${jobId}/candidates`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}/candidates`);
                 if (res.ok) {
                     setCandidates(await res.json());
                 }
@@ -83,7 +83,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
                 const timeoutId = setTimeout(() => controller.abort(), 10000);
 
                 try {
-                    const res = await fetch(`http://127.0.0.1:8000/api/v1/jobs/${jobId}/candidates`, {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${jobId}/candidates`, {
                         signal: controller.signal
                     });
                     clearTimeout(timeoutId);
@@ -194,7 +194,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
             setIsBatchUpdating(true);
             try {
                 await Promise.all(selectedCandidates.map(id =>
-                    fetch(`http://127.0.0.1:8000/api/v1/candidates/${id}`, {
+                    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${id}`, {
                         method: "DELETE"
                     })
                 ));
@@ -212,7 +212,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
         setIsBatchUpdating(true);
         try {
             await Promise.all(selectedCandidates.map(id =>
-                fetch(`http://127.0.0.1:8000/api/v1/candidates/${id}`, {
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${id}`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ status: newStatus })
@@ -237,7 +237,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
         setIsBatchUpdating(true);
         try {
             await Promise.all(notRecommended.map(c =>
-                fetch(`http://127.0.0.1:8000/api/v1/candidates/${c.id}`, {
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${c.id}`, {
                     method: "DELETE"
                 })
             ));
@@ -290,7 +290,7 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
     const handleDeleteCandidate = async (candidateId: string) => {
         if (!confirm("Are you sure you want to delete this candidate? This action cannot be undone.")) return;
         try {
-            const res = await fetch(`http://127.0.0.1:8000/api/v1/candidates/${candidateId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/candidates/${candidateId}`, {
                 method: "DELETE"
             });
             if (res.ok) {
