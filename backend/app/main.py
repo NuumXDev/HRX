@@ -30,6 +30,9 @@ app.include_router(interview_routes.router, prefix=f"{settings.API_V1_STR}/inter
 app.include_router(assessment_routes.router, prefix=f"{settings.API_V1_STR}/assessment", tags=["assessment"])
 
 
+from app.database import engine, Base
+Base.metadata.create_all(bind=engine)
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
