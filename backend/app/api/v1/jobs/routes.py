@@ -8,8 +8,7 @@ from app.models.candidate import Candidate
 from app.schemas.job import JobCreate, JobUpdate, JobResponse, JDGenerateRequest
 from app.schemas.candidate import CandidateResponse
 from app.services.ai_service import generate_job_description
-import json
-import uuid
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -182,7 +181,7 @@ def get_job_candidates(job_id: str, db: Session = Depends(get_db)):
             CandidateToken.is_used == False
         ).order_by(CandidateToken.created_at.desc()).first()
         if token:
-            c.magic_link = f"http://localhost:3000/p/test/{token.token}"
+            c.magic_link = f"{settings.FRONTEND_URL}/p/test/{token.token}"
             
         # 2. Fetch Latest Assessment Session
         if c.assessment_sessions:

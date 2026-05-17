@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.candidate import Candidate
 from app.models.assessment_session import AssessmentSession
 from app.models.candidate_token import CandidateToken
+from app.core.config import settings
 
 def enrich_candidate_metadata(candidate: Candidate, db: Session):
     """
@@ -24,7 +25,7 @@ def enrich_candidate_metadata(candidate: Candidate, db: Session):
         CandidateToken.is_used == False
     ).first()
     if token_record:
-        candidate.magic_link = f"http://localhost:3000/p/test/{token_record.token}"
+        candidate.magic_link = f"{settings.FRONTEND_URL}/p/test/{token_record.token}"
 
     # 2. Fetch latest assessment session data
     assessment = db.query(AssessmentSession).filter(
