@@ -562,11 +562,12 @@ export function CandidateDetailModal({
                       {(() => {
                         let link = currentCandidate.magic_link;
                         if (link && typeof window !== "undefined") {
-                          try {
-                            const parsedLink = new URL(link);
-                            link = `${window.location.origin}${parsedLink.pathname}${parsedLink.search}${parsedLink.hash}`;
-                          } catch (e) {
-                            // Fallback if not a valid URL
+                          const tokenMatch = link.match(/\/p\/test\/([^/]+)/);
+                          if (tokenMatch && tokenMatch[1]) {
+                            link = `${window.location.origin}/p/test/${tokenMatch[1]}`;
+                          } else if (!/^https?:\/\//i.test(link)) {
+                            // If it's a domain/path without protocol (e.g. from misconfigured FRONTEND_URL), prepend https://
+                            link = `https://${link}`;
                           }
                         }
                         return link && currentCandidate.assessment_status !== "COMPLETED" && (
