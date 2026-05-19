@@ -86,7 +86,7 @@ def generate_interview_scorecard(resume_text: str, job_description: str, intervi
     """
     
     response = client.models.generate_content(
-        model='gemini-1.5-flash',
+        model='gemini-2.5-flash',
         contents=prompt,
         config={"response_mime_type": "application/json"}
     )

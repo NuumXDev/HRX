@@ -57,7 +57,7 @@ export default async function DashboardPage() {
     };
 
     // Fetch active jobs list
-    const jobsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/?org_id=${orgId}`, {
+    const jobsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs?org_id=${orgId}`, {
         cache: 'no-store'
     });
     const jobs = jobsRes.ok ? await jobsRes.json() : [];

@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -12,7 +13,7 @@ from app.core.config import settings
 
 router = APIRouter()
 
-@router.post("/", response_model=JobResponse)
+@router.post("", response_model=JobResponse)
 def create_job(payload: JobCreate, org_id: str, db: Session = Depends(get_db)):
     # Verify organization exists
     org = db.query(Organization).filter(Organization.id == org_id).first()
@@ -31,7 +32,7 @@ def create_job(payload: JobCreate, org_id: str, db: Session = Depends(get_db)):
     db.refresh(db_job)
     return db_job
 
-@router.get("/", response_model=List[JobResponse])
+@router.get("", response_model=List[JobResponse])
 def get_jobs(org_id: str, db: Session = Depends(get_db)):
     from sqlalchemy.orm import joinedload
     jobs = db.query(Job).options(joinedload(Job.candidates)).filter(Job.org_id == org_id).all()

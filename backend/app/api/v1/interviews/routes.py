@@ -11,7 +11,7 @@ import json
 
 router = APIRouter()
 
-@router.post("/", response_model=InterviewResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=InterviewResponse, status_code=status.HTTP_201_CREATED)
 def create_interview(payload: InterviewCreate, db: Session = Depends(get_db)):
     db_interview = Interview(**payload.dict())
     db.add(db_interview)

@@ -10,7 +10,7 @@ export default async function JobsPage() {
     // @ts-ignore
     const orgId = session.user.org_id;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/?org_id=${orgId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs?org_id=${orgId}`, {
         cache: 'no-store'
     });
 

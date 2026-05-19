@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getApiUrl } from "@/lib/api";
 
 export default function CandidateTestPage() {
     const params = useParams();
@@ -56,7 +57,7 @@ export default function CandidateTestPage() {
             if (!token) return;
 
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/assessment/start`, {
+                const res = await fetch(getApiUrl(`/api/v1/assessment/start`), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ token }),
@@ -109,7 +110,7 @@ export default function CandidateTestPage() {
         resetInputs();
         
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/assessment/${sessionId}/question`);
+            const res = await fetch(getApiUrl(`/api/v1/assessment/${sessionId}/question`));
             const data = await res.json();
             
             if (data.status === "completed" || !data.question) {
@@ -148,7 +149,7 @@ export default function CandidateTestPage() {
         };
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/assessment/${sessionData.session_id}/submit`, {
+            const res = await fetch(getApiUrl(`/api/v1/assessment/${sessionData.session_id}/submit`), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

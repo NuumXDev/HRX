@@ -14,6 +14,7 @@ import {
     CheckCircle2,
     Type
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 
 export default function JobCreationWizard() {
     const { data: session } = useSession();
@@ -42,7 +43,7 @@ export default function JobCreationWizard() {
         try {
             // @ts-ignore
             const orgId = session?.user?.org_id;
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/generate-jd?org_id=${orgId}`, {
+            const res = await fetch(getApiUrl(`/api/v1/jobs/generate-jd?org_id=${orgId}`), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -74,7 +75,7 @@ export default function JobCreationWizard() {
             const orgId = session?.user?.org_id;
 
             // 1. Create the job record
-            const jobRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/?org_id=${orgId}`, {
+            const jobRes = await fetch(getApiUrl(`/api/v1/jobs?org_id=${orgId}`), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -88,7 +89,7 @@ export default function JobCreationWizard() {
             const job = await jobRes.json();
 
             // 2. Update with the generated content and set to active
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/v1/jobs/${job.id}?org_id=${orgId}`, {
+            await fetch(getApiUrl(`/api/v1/jobs/${job.id}?org_id=${orgId}`), {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
