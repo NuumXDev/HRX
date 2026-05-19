@@ -254,9 +254,9 @@ def get_analytics_summary(org_id: str, job_id: str = None, db: Session = Depends
             stage_counts[status] += 1
             
     funnel_data = [
-        {"stage": "Applications", "count": total_candidates, "percentage": 100},
-        {"stage": "Screening", "count": stage_counts["screening"] + stage_counts["interview"] + stage_counts["offered"], "percentage": 0},
-        {"stage": "Interview", "count": stage_counts["interview"] + stage_counts["offered"], "percentage": 0},
+        {"stage": "Applications", "count": stage_counts["new"], "percentage": 0},
+        {"stage": "Screening", "count": stage_counts["screening"], "percentage": 0},
+        {"stage": "Interview", "count": stage_counts["interview"], "percentage": 0},
         {"stage": "Offered", "count": stage_counts["offered"], "percentage": 0},
     ]
     
