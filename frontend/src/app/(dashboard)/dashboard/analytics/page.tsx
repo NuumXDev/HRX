@@ -348,7 +348,11 @@ export default function AnalyticsPage() {
                                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Top Skills Count</span>
                                 <div className="grid grid-cols-2 gap-3">
                                     {data.top_skills.slice(0, 6).map((item, idx) => (
-                                        <div key={item.skill} className="bg-white/[0.02] border border-white/5 rounded-xl p-2.5 flex items-center justify-between">
+                                        <div 
+                                            key={item.skill} 
+                                            title={item.skill}
+                                            className="bg-white/[0.02] border border-white/5 rounded-xl p-2.5 flex items-center justify-between cursor-help"
+                                        >
                                             <span className="font-mono text-[10px] text-slate-300 truncate max-w-[80px]">{item.skill}</span>
                                             <span className="text-[10px] font-bold text-brand-accent bg-brand-accent/10 px-2 py-0.5 rounded-md">
                                                 {item.count}
