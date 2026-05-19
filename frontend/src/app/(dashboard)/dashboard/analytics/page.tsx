@@ -323,6 +323,7 @@ export default function AnalyticsPage() {
                                 {/* Skill Points Circles */}
                                 {radarPoints.map((p, i) => (
                                     <g key={i} className="group cursor-pointer">
+                                        <title>{p.label}</title>
                                         <circle
                                             cx={p.x}
                                             cy={p.y}
@@ -336,7 +337,7 @@ export default function AnalyticsPage() {
                                             textAnchor={Math.cos(p.angle) > 0.1 ? "start" : Math.cos(p.angle) < -0.1 ? "end" : "middle"}
                                             className="fill-slate-400 font-mono text-[9px] font-bold tracking-wider"
                                         >
-                                            {p.label} ({p.value})
+                                            {p.label.length > 12 ? p.label.substring(0, 12) + "..." : p.label} ({p.value})
                                         </text>
                                     </g>
                                 ))}

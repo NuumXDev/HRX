@@ -307,10 +307,13 @@ def get_analytics_summary(org_id: str, job_id: str = None, db: Session = Depends
                     skills.extend(raw_skills)
             except:
                 pass
+        unique_candidate_skills = set()
         for s in skills:
             s_name = str(s).strip().upper()
             if s_name:
-                skill_counts[s_name] = skill_counts.get(s_name, 0) + 1
+                unique_candidate_skills.add(s_name)
+        for s_name in unique_candidate_skills:
+            skill_counts[s_name] = skill_counts.get(s_name, 0) + 1
                 
     # Select top 6 skills for the radar/bar visualization
     sorted_skills = sorted(skill_counts.items(), key=lambda item: item[1], reverse=True)[:6]
