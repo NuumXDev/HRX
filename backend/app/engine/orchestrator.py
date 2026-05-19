@@ -92,12 +92,16 @@ class AIEngine:
             existing_projects = final_payload.get("projects", [])
             for np in verification["notable_projects"]:
                 # Simple deduplication by title
-                if not any(p.get("title", "").lower() == np.get("name", "").lower() for p in existing_projects):
+                matching_project = next((p for p in existing_projects if p.get("title", "").lower() == np.get("name", "").lower()), None)
+                if not matching_project:
                     existing_projects.append({
                         "title": np.get("name"),
                         "description": np.get("description"),
-                        "technologies": []
+                        "technologies": np.get("technologies", [])
                     })
+                else:
+                    if not matching_project.get("technologies") and np.get("technologies"):
+                        matching_project["technologies"] = np.get("technologies")
             final_payload["projects"] = existing_projects
 
         context.set("final_parsed_json", final_payload)

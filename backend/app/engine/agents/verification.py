@@ -57,7 +57,7 @@ class SocialVerificationAgent(BaseAgent):
         
         Provide a JSON summary with two keys:
         - "findings": A rich, continuous paragraph detailing how their specific projects align with the role. Be very specific. Example: "Som has extensive python experience as can be seen from his backend api pipeline project mentioned in the resume, where he created a whole backend pipeline using python and FastAPI with cost optimisations."
-        - "notable_projects": An array of objects, each with "name" and "description" (focus the description on how the project aligns with the required skills).
+        - "notable_projects": An array of objects, each with "name", "description" (focus the description on how the project aligns with the required skills), and "technologies" (list of strings representing programming languages, frameworks, or tools used).
         
         Return ONLY valid JSON. Note that JSON does not support trailing commas.
         """

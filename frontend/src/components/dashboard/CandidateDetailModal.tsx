@@ -559,22 +559,33 @@ export function CandidateDetailModal({
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 justify-center md:justify-start">
-                      {currentCandidate.magic_link && currentCandidate.assessment_status !== "COMPLETED" && (
-                        <div className="flex items-center gap-3">
-                           <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-                              <code className="text-[10px] text-brand-accent font-mono truncate max-w-[200px]">{currentCandidate.magic_link}</code>
-                              <button 
-                                onClick={() => navigator.clipboard.writeText(currentCandidate.magic_link)}
-                                className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all border border-white/5"
-                              >
-                                <Check size={14} />
-                              </button>
-                           </div>
-                           <button onClick={() => window.open(currentCandidate.magic_link, "_blank")} className="p-4 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl text-brand-accent hover:bg-brand-accent/20 transition-all">
-                              <ExternalLink size={20} />
-                           </button>
-                        </div>
-                      )}
+                      {(() => {
+                        let link = currentCandidate.magic_link;
+                        if (link && typeof window !== "undefined") {
+                          try {
+                            const parsedLink = new URL(link);
+                            link = `${window.location.origin}${parsedLink.pathname}${parsedLink.search}${parsedLink.hash}`;
+                          } catch (e) {
+                            // Fallback if not a valid URL
+                          }
+                        }
+                        return link && currentCandidate.assessment_status !== "COMPLETED" && (
+                          <div className="flex items-center gap-3">
+                             <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+                                <code className="text-[10px] text-brand-accent font-mono truncate max-w-[200px]">{link}</code>
+                                <button 
+                                  onClick={() => navigator.clipboard.writeText(link)}
+                                  className="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all border border-white/5"
+                                >
+                                  <Check size={14} />
+                                </button>
+                             </div>
+                             <button onClick={() => window.open(link, "_blank")} className="p-4 bg-brand-accent/10 border border-brand-accent/20 rounded-2xl text-brand-accent hover:bg-brand-accent/20 transition-all">
+                                <ExternalLink size={20} />
+                             </button>
+                          </div>
+                        );
+                      })()}
 
                       {currentCandidate.assessment_status !== "COMPLETED" && !currentCandidate.magic_link && (
                         <button

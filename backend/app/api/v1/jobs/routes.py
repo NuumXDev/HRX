@@ -1,4 +1,5 @@
 import uuid
+import json
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -182,7 +183,7 @@ def get_job_candidates(job_id: str, db: Session = Depends(get_db)):
             CandidateToken.is_used == False
         ).order_by(CandidateToken.created_at.desc()).first()
         if token:
-            c.magic_link = f"{settings.FRONTEND_URL}/p/test/{token.token}"
+            c.magic_link = f"{settings.FRONTEND_URL.rstrip('/')}/p/test/{token.token}"
             
         # 2. Fetch Latest Assessment Session
         if c.assessment_sessions:

@@ -25,7 +25,7 @@ def enrich_candidate_metadata(candidate: Candidate, db: Session):
         CandidateToken.is_used == False
     ).first()
     if token_record:
-        candidate.magic_link = f"{settings.FRONTEND_URL}/p/test/{token_record.token}"
+        candidate.magic_link = f"{settings.FRONTEND_URL.rstrip('/')}/p/test/{token_record.token}"
 
     # 2. Fetch latest assessment session data
     assessment = db.query(AssessmentSession).filter(
