@@ -203,7 +203,17 @@ export default function CandidatesDatabasePage() {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    {candidate.assessment_score !== null && candidate.assessment_score !== undefined ? (
+                                    {candidate.assessment_status === 'ACTIVE' ? (
+                                        <div className="flex flex-col gap-1">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-12 bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5 relative">
+                                                    <div className="h-full bg-amber-500 animate-pulse absolute left-0 top-0 w-2/3" />
+                                                </div>
+                                                <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest animate-pulse">In Progress</span>
+                                            </div>
+                                            <span className="text-[8px] text-slate-500 uppercase tracking-widest">Tech Assessment</span>
+                                        </div>
+                                    ) : candidate.assessment_score !== null && candidate.assessment_score !== undefined ? (
                                         <div className="flex flex-col gap-1">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-12 bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5">

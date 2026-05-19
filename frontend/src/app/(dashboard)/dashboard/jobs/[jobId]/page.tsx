@@ -616,7 +616,17 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
                                                 </span>
                                             </td>
                                             <td className="px-8 py-6">
-                                                {candidate.assessment_score !== null && candidate.assessment_score !== undefined ? (
+                                                {candidate.assessment_status === 'ACTIVE' ? (
+                                                    <div className="flex flex-col gap-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-16 bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5 relative">
+                                                                <div className="h-full bg-amber-500 animate-pulse absolute left-0 top-0 w-2/3" />
+                                                            </div>
+                                                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest animate-pulse">In Progress</span>
+                                                        </div>
+                                                        <span className="text-[8px] text-slate-500 uppercase tracking-widest">Tech Assessment</span>
+                                                    </div>
+                                                ) : candidate.assessment_score !== null && candidate.assessment_score !== undefined ? (
                                                     <div className="flex flex-col gap-1">
                                                         <div className="flex items-center gap-2">
                                                             <div className="w-16 bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/5">
@@ -647,20 +657,31 @@ export default function PipelinePage({ params }: { params: Promise<{ jobId: stri
                                                 )}
                                             </td>
                                             <td className="px-8 py-6 text-center">
-                                                {isComplete ? (
-                                                    <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-[9px] font-bold uppercase tracking-widest ${parsed.verdict === 'ACCEPT' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/40' :
-                                                            parsed.verdict === 'REJECT' ? 'bg-rose-500/10 text-rose-400 border-rose-500/40' :
-                                                                'bg-amber-500/10 text-amber-400 border-amber-500/40'
+                                                {(() => {
+                                                    const isAssessmentDone = candidate.assessment_status === 'COMPLETED' && candidate.assessment_verdict;
+                                                    const verdict = isAssessmentDone ? candidate.assessment_verdict : parsed.verdict;
+                                                    
+                                                    if (!verdict) {
+                                                        return <span className="text-[9px] text-slate-700 font-bold uppercase tracking-widest animate-pulse">Processing...</span>;
+                                                    }
+                                                    
+                                                    const isAccept = ["ACCEPT", "HIRE", "STRONG_HIRE"].includes(verdict.toUpperCase());
+                                                    const isReject = ["REJECT", "NO_HIRE", "TERMINATE", "FAIL"].includes(verdict.toUpperCase());
+                                                    
+                                                    return (
+                                                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-[9px] font-bold uppercase tracking-widest ${
+                                                            isAccept ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/40' :
+                                                            isReject ? 'bg-rose-500/10 text-rose-400 border-rose-500/40' :
+                                                            'bg-amber-500/10 text-amber-400 border-amber-500/40'
                                                         }`}>
-                                                        {parsed.verdict === 'ACCEPT' ? <CheckCircle2 size={12} /> :
-                                                            parsed.verdict === 'REJECT' ? <XCircle size={12} /> :
-                                                                <AlertTriangle size={12} />}
-                                                        {parsed.verdict === 'ACCEPT' ? 'Recommended' :
-                                                            parsed.verdict === 'REJECT' ? 'Terminate' : 'Caution'}
-                                                    </div>
-                                                ) : (
-                                                    <span className="text-[9px] text-slate-700 font-bold uppercase tracking-widest animate-pulse">Processing...</span>
-                                                )}
+                                                            {isAccept ? <CheckCircle2 size={12} /> :
+                                                             isReject ? <XCircle size={12} /> :
+                                                             <AlertTriangle size={12} />}
+                                                            {isAccept ? 'Recommended' :
+                                                             isReject ? 'Terminate' : 'Caution'}
+                                                        </div>
+                                                    );
+                                                })()}
                                             </td>
                                             <td className="px-8 py-6 text-right">
                                                 <div className="flex justify-end items-center gap-2">
